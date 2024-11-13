@@ -1,7 +1,10 @@
 #discordpy version of soundbored
 
 #My Libs
-from lib.Apostle import * #Call the discord bot
+from Bigbrother import * #Call the discord bot
+import ctypes
+#myappid = 'daytondaniels.soundbored.alpha.1'
+#ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 #Core Libs
 import sys
 import os
@@ -204,17 +207,21 @@ def GUI():
         mainLayout.addLayout(extraSound)
         mainLayout.addLayout(mainWeather)
         mainLayout.addLayout(extraWeather)
-        window.setLayout(mainLayout)  
+        window.setLayout(mainLayout)
+        window.setWindowTitle('SoundBored | Dayton Daniels')  
         window.setStyleSheet("""
-        background-color: #262626;
-        color: #FFFFFF;
+        background-color: #484b6a;
+        color:  #658c95;
         font-size: 18px;
         """)
+        window.setWindowIcon(QIcon('logo.png'))
     finalinit()
     def fin():
         window.show()
         app.exec()
-        if (sys.flags.interactive != 1):    
+        if (sys.flags.interactive != 1):  
+            for i in ports:
+                 CmdSEND(int(i),b'death')
             quit()
     fin()
 GUI()

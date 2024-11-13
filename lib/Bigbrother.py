@@ -24,8 +24,11 @@ def CmdRECIEVE(port):#(reciever)
                 s.bind((HOST, int(port)))
                 s.listen()
             except:
-                s.connect((HOST, int(port)))
-                s.listen()
+                try:
+                    s.connect((HOST, int(port)))
+                    s.listen()
+                except:
+                    pass
 
             conn, addr = s.accept()
             with conn:
@@ -33,7 +36,7 @@ def CmdRECIEVE(port):#(reciever)
                     global data
                     data = conn.recv(2048)
                     if not data:
-                        pass
+                        quit()
                     else:     
                         return conn.recv(2048)
                           
@@ -48,4 +51,4 @@ def InitLoopVAR():
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print('init')
             s.sendall(b'init')
-    
+

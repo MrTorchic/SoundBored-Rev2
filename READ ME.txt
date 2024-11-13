@@ -1,0 +1,6 @@
+Before startup you must configure SoundBored by setting your discord tokens, ip and ports in the .env file at "SoundBored-Rev2-main\lib\.env" and install the requirements in "requirements.txt"
+
+
+
+After setup simply launch "init.py"
+

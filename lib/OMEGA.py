@@ -1,7 +1,8 @@
-from Apostle import *
+from Bigbrother import *
 import threading
 import subprocess
 import discord
+from discord.ext import tasks, commands
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -13,7 +14,11 @@ global loopInt
 loopInt=None
 def Listen():
     while True:
-        x = CmdRECIEVE(Port).decode()
+        try:
+            x = CmdRECIEVE(Port).decode()
+        except:
+            quit
+
         if 'play' in x:
             x=x.split(' + ')[-1]
             play(x)
@@ -26,8 +31,8 @@ def Listen():
         elif 'stop' in x:
             stop()
         elif 'death' in x:
-            print('slayed')
-            break
+            quit()
+        
 
         
 #START LISTENING
@@ -40,6 +45,9 @@ def initbot(Discord_Token):
     @client.event
     async def on_ready():        
         global play;global loop;global stop
+        if not Detect.is_running():
+            Detect.start()
+        
         def play(file):
             def repeat(file):
                 if loopInt==1:
@@ -68,6 +76,10 @@ def initbot(Discord_Token):
     async def on_message(message):
         if message.author == client.user:
             return
+    @tasks.loop(seconds=1)
+    async def Detect():
+        if initSocket.is_alive()!=True:
+            await client.close()       
     client.run(Discord_Token)
 initbot(Discord_Token)
 
